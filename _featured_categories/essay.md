@@ -1,10 +1,10 @@
 ---
 layout: list
-title: Essay
-slug: essay
+title: Data Engineering 
+slug: de
 menu: true
 submenu: false
 order: 4
 description: >
-  평소 생각과 쓰고싶은 글을 씁니다.
+  아파치 하둡, 스파크에 대해 공부한 자료를 올립니다.
 ---
