@@ -1,7 +1,7 @@
 ---
 layout: list
 title: CS
-slug: CS
+slug: cs
 menu: true
 submenu: true
 order: 5
