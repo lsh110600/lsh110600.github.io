@@ -1,8 +1,8 @@
 ---
 layout: tag-blog
-title: React
-slug: react
-category: video
+title: OS
+slug: os
+category: cs
 menu: false
 order: 1
 ---
