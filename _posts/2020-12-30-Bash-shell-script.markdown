@@ -90,6 +90,21 @@ exit 0
     > $2: value2 <br>
     > $3: value3 <br>
     > 전체 파라미터: value1 value2 value3 
+    
+   ### 자주쓰는 파라미터 변수   
+   - `$?` => 최근에 실행된 명령어, 함수, 스크립트 자식의 종료 상태 
+   - `${변수}` => `$변수`와 동일하지만 `{ }`로 감싼 부분에 변수를 대입해줍니다. 
+   - EX) 
+   ```c
+      test=1234
+      test5678=test
+      echo "This is $test5678"   #test5678이라는 변수를 echo
+      echo "This is ${test}5678"  #test라는 변수를 echo
+   ```
+   > This is test  <br>
+   > This is 12345678  
+   - `${변수:=단어}` => 변수가 미선언 됐거나 NULL일 때, 기본값으로 :- 뒤에 있는 값을 선택합니다.
+   - 
 
 ## 조건문 
 - if 문은 아래와 같이 사용합니다. 
