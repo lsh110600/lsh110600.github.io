@@ -2,8 +2,8 @@
 layout: post
 title: 'Bash Shell script 기초'
 subtitle: '쉘 스크립트 기초를 닦아보자'
-categories: Programing
-tags: Bash shell script
+categories: programing
+tags: bash shell script
 comments: true
 ---
 
