@@ -213,7 +213,7 @@ func_test()
    echo "$*"
    exit 0
 ```
-> >./test.sh
+> `>./test.sh
 > 2020. 12. 30. (수) 20:42:00 KST <br>
 > 2020. <br>
 > 12. <br>
