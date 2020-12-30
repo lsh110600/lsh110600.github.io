@@ -112,18 +112,18 @@ case 변수 in
      code
      ;;
  esac
- 
+```
 ## 값 입력 받기 
 - `read` 명령어를 사용해서 사용자로부터 값을 입력 받을 수 있습니다. 
 - `-n'은 개행을 의미합니다. 
 - `-n 1`은 `enter` 입력 없이 한 문자의 입력을 즉시 받고 싶을 때 사용합니다.
 - Ex) 
-      ```c
-      #!/bin/bash
-      echo -n "input"
-      read input
-      echo "input: $input"
-      ```
+ ```c
+   #!/bin/bash
+   echo -n "input"
+   read input
+   echo "input: $input"
+ ```
 
 ## 반복문 
 1. for 문
