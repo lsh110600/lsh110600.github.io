@@ -89,3 +89,36 @@ exit 0
     > $2: value2 <br>
     > $3: value3 <br>
     > 전체 파라미터: value1 value2 value3 
+
+## 조건문 
+- if 문은 아래와 같이 사용합니다. 
+```c 
+if [ 조건 ]; then
+  code
+else 
+  code
+fi
+```
+
+- case 문은 아래와 같이 사용합니다.
+- 각 case 마지막에 `;;`을 붙여줍니다. 
+```c 
+case 변수 in 
+   case1)
+     code
+     ;;
+   case2)
+     code
+     ;;
+ esac
+ 
+## 값 입력 받기 
+- `read` 명령어를 사용해서 사용자로부터 값을 입력 받을 수 있습니다. 
+- `-n'은 개행을 의미합니다. 
+- `-n 1`은 `enter` 입력 없이 한 문자의 입력을 즉시 받고 싶을 때 사용합니다.
+```c
+#!/bin/bash
+echo -n "input"
+read input
+echo "input: $input"
+```
