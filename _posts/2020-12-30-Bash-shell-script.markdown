@@ -186,7 +186,7 @@ func_test()
    eval $VAL
    exit 0
 ```   
-> >./test.sh "Hello world!"
+> \>./test.sh "Hello world!"
 > Hello world! 
 
 3. export 
@@ -213,15 +213,15 @@ func_test()
    echo "$*"
    exit 0
 ```
-> `>./test.sh
-> 2020. 12. 30. (수) 20:42:00 KST <br>
-> 2020. <br>
-> 12. <br>
-> 30. <br>
+> \>./test.sh
+> 2020 12 30 (수) 20:42:00 KST <br>
+> 2020 <br>
+> 12 <br>
+> 30 <br>
 > (수) <br>
 > 20:42:00 <br>
 > KST <br>
-> 2020. 12. 30. (수) 20:42:00 KST <br>
+> 2020 12 30 (수) 20:42:00 KST <br>
 
 
 
