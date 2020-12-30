@@ -32,9 +32,9 @@ comments: true
 - '변수명=변수 값' 으로 변수를 선언합니다. <br>
   Ex) 
   ```python
-          A=5 <br>
-          B=10 <br>
-          C=hello <br>
+          A=5 
+          B=10 
+          C=hello 
           D="Hello world!" 
   ``` 
   ### 주의 사항 
