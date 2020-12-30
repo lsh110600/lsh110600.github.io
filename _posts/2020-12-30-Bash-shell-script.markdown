@@ -7,6 +7,9 @@ tags: bash shell script
 comments: true
 ---
 
+우분투 서버에서 실험을 진행할 때 Shell script를 활용해야하기 때문에 글을 작성하게 되었습니다. 
+
+
 ## 쉘 스크립트 
 
 쉘은 사용자가 입력한 명령을 해석해 커널에 전달하거나, 커널의 처리 결과를 사용자에게 전달하는 역할을 합니다. <br>
@@ -23,9 +26,7 @@ comments: true
   - 권한을 부여할 때는 **chmod** 명령어를 사용합니다. <br>
   Ex) `chmod +x test.sh` 
 5. 권한을 부여받은 sh파일을 실행시킵니다.
-  Ex) ```python 
-       ./test.sh
-      ```
+  Ex) `./test.sh`
 
 
 ## 변수 사용 
@@ -125,6 +126,7 @@ case 변수 in
       ```
 
 ## 반복문 
+1. for 문
 - for 문은 아래와 같이 사용합니다. 
 ```c
 for 변수 in 값1, 값2 
@@ -143,6 +145,37 @@ done
    > 1 <br>
    > 2 <br> 
    > 3 <br>
+
+2. while 문
+- while 문은 아래와 같이 사용합니다. 
+- 조건식이 참일 때 반복합니다. 
+```c
+while [ 조건 ] 
+do
+   code
+done 
+```
+
+3. break, continue, exit, return
+- `break`: 해당 반복문을 종료한다.
+- `continue`: 진행을 멈추고 해당 반복문의 조건식으로 돌아간다.
+- `exit`: 해당 프로그램을 완전히 종료한다.
+- `return`: 함수 안에서 실행되며, 함수가 호출된 곳으로 돌아간다.
+
+
+##사용자 정의 함수 
+1. 함수 작성
+- 함수이름(매개변수) { } 형식으로 선언, `함수이름 인자`로 호출할 수 있습니다. 
+- return을 사용하여 결과 값을 전달할 수 있다. 
+''' c
+func_test()
+{
+   val_a=$1
+   val_b=$2
+   echo"$val_a $val_b"
+}
+```
+- 사용 `func_test a b`
 
 참고자료 
 1. https://mug896.github.io/bash-shell/functions.html
