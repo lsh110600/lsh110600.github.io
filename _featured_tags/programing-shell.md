@@ -1,7 +1,7 @@
 ---
 layout: tag-blog
 title: Bash shell script
-slug: Bash_shell_script
+slug: bash shell script
 category: programing
 menu: false
 order: 1
