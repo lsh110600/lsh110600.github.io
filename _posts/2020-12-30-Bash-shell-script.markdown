@@ -73,18 +73,19 @@ comments: true
 ## 파라미터 변수
 - 파라미터 변수는 $0, $1, $2 와 같은 형식을 가집니다. 
 - 명령을 실행할 때 지정되며 sh파일에서 필요한 입력 파라미터를 전달받습니다. 
-- Ex)  '''python 
-      #!/bin/bash
-      echo "실행 파일 이름: $0"
-      echo "\$1: $1"
-      echo "\$2: $2"
-      echo "\$3: $3"
-      echo "전체 파라미터: $*"
-      exit 0
-      '''
-    > sh test.sh value1 value2 value3 
-    > 실행 파일 이름: test.sh
-    > $1: value1
-    > $2: value2
-    > $3: value3
+- Ex)  
+'''python 
+#!/bin/bash
+echo "실행 파일 이름: $0"
+echo "\$1: $1"
+echo "\$2: $2"
+echo "\$3: $3"
+echo "전체 파라미터: $*"
+exit 0
+'''
+    > sh test.sh value1 value2 value3 <br>
+    > 실행 파일 이름: test.sh <br>
+    > $1: value1 <br>
+    > $2: value2 <br>
+    > $3: value3 <br>
     > 전체 파라미터: value1 value2 value3 
