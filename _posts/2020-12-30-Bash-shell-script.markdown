@@ -94,9 +94,9 @@ exit 0
 - if 문은 아래와 같이 사용합니다. 
 ```c 
 if [ 조건 ]; then
-  code
+   code
 else 
-  code
+   code
 fi
 ```
 
@@ -133,13 +133,13 @@ do
 done 
 ```
 - Ex) 
-   ```c
-      #!/bin/bash
-      for var in 1 2 3
-      do
-        ehco $var
-      done
-   ```
+```c
+   #!/bin/bash
+   for var in 1 2 3
+   do
+      ehco $var
+   done
+```
    > 1 <br>
    > 2 <br> 
    > 3 <br>
