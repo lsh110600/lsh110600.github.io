@@ -116,9 +116,33 @@ case 변수 in
 - `read` 명령어를 사용해서 사용자로부터 값을 입력 받을 수 있습니다. 
 - `-n'은 개행을 의미합니다. 
 - `-n 1`은 `enter` 입력 없이 한 문자의 입력을 즉시 받고 싶을 때 사용합니다.
+- Ex) ```c
+      #!/bin/bash
+      echo -n "input"
+      read input
+      echo "input: $input"
+      ```
+
+## 반복문 
+- for 문은 아래와 같이 사용합니다. 
 ```c
-#!/bin/bash
-echo -n "input"
-read input
-echo "input: $input"
+for 변수 in 값1, 값2 
+do
+   code 
+done 
 ```
+- Ex) ```c
+      #!/bin/bash
+      for var in 1 2 3
+      do
+        ehco $var
+      done
+      ```
+   > 1 <br>
+   > 2 <br> 
+   > 3 <br>
+
+참고자료 
+1. https://mug896.github.io/bash-shell/functions.html
+2. https://kangsecu.tistory.com/54
+3. https://velog.io/@jinyongp/%EC%89%98-%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D
