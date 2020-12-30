@@ -11,7 +11,7 @@ comments: true
 
 
 ## 도커란?
-![Capture](../blob/master/assets/img/post/docker/2020-12-31-docker-0.png)
+![Capture](/assets/img/post/docker/2020-12-31-docker-0.png)
 - 도커는 리눅스 컨테이너에 여러 기능을 추가함으로써 애플리케이션을 컨터에너로서 좀 더 쉽게 사용할 수 있게 만들어진 오픈소스입니다. 
 - 기존에 사용하던 가상 머신과는 달리 도커 컨테이너는 성능의 손실이 없고 효율적으로 이미지(프로세스 실행 환경)을 구축할 수 있도록 해줍니다.
 
