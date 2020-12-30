@@ -3,7 +3,7 @@ layout: post
 title: '[Shell script] Bash Shell script 기초'
 subtitle: '쉘 스크립트 기초를 닦아보자'
 categories: programing
-tags: Bash_shell_script
+tags: bash shell script
 comments: true
 ---
 
