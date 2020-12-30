@@ -163,7 +163,7 @@ done
 - `return`: 함수 안에서 실행되며, 함수가 호출된 곳으로 돌아간다.
 
 
-##사용자 정의 함수 
+## 사용자 정의 함수 
 1. 함수 작성
 - 함수이름(매개변수) { } 형식으로 선언, `함수이름 인자`로 호출할 수 있습니다. 
 - return을 사용하여 결과 값을 전달할 수 있다. 
@@ -176,6 +176,54 @@ func_test()
 }
 ```
 - 사용 `func_test a b`
+
+2. eval
+- 문자열을 명령문으로 인식하고 실행합니다. 
+- Ex)
+```c
+   #!/bin/bash
+   VAL="echo $1"
+   eval $VAL
+   exit 0
+```   
+> >./test.sh "Hello world!"
+> Hello world! 
+
+3. export 
+- 쉘 변수를 환경변수로 저장할 수 있습니다. 이렇게 선언을 하면 다른 프로그램에서도 사용할 수 있게됩니다. 
+- 이 환경 변수는 터미널이 꺼지면 사라지게 됩니다.
+- Ex) `export VAR_HOME="/tmp/var"
+- 매번 쉘을 실행할 때 마다 환경변수를 자동으로 설정하고 싶다면 `.bashrc` 파일을 수정해야합니다.
+- home 디렉토리에서 `vi ~/.bashrc`로 변경할 수 있습니다. 
+
+4. set과 $()
+- 명령을 결과로 사용하기 위해서는 `$(명령어)`로 사용해야합니다.  
+- 결과를 매개변수로 사용하고 싶을 때는 `set` 명령어를 사용합니다. 
+- Ex)
+```c
+   #!/bin/bash
+   echo $(date)
+   set $(date)
+   echo "$1"
+   echo "$2"
+   echo "$3"
+   echo "$4"
+   echo "$5"
+   echo "$6"
+   echo "$*"
+   exit 0
+```
+> >./test.sh
+> 2020. 12. 30. (수) 20:42:00 KST <br>
+> 2020. <br>
+> 12. <br>
+> 30. <br>
+> (수) <br>
+> 20:42:00 <br>
+> KST <br>
+> 2020. 12. 30. (수) 20:42:00 KST <br>
+
+
 
 참고자료 
 1. https://mug896.github.io/bash-shell/functions.html
