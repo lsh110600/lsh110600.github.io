@@ -11,7 +11,7 @@ comments: true
 
 
 ## 도커란?
-![Capture](../assets/img/post/docker/2020-12-31-docker-0.png)
+![Capture](/assets/img/post/docker/2020-12-31-docker-0.png)
 - 도커는 리눅스 컨테이너에 여러 기능을 추가함으로써 애플리케이션을 컨터에너로서 좀 더 쉽게 사용할 수 있게 만들어진 오픈소스입니다. 
 - 기존에 사용하던 가상 머신과는 달리 도커 컨테이너는 성능의 손실이 없고 효율적으로 이미지(프로세스 실행 환경)을 구축할 수 있도록 해줍니다.
 
@@ -23,7 +23,7 @@ comments: true
 - 어떠한 작업(Ex. 입출력 작업)을 할 때 `하이퍼바이저`를 반드시 거치기 때문에 일반 호스트에 비해 성능이 떨어집니다.
 - 추가적으로, 가상 머신은 `Guest OS`를 사용하기 위한 라이브러리, 커널 등을 전부 포함하기 때문에 가상머신을 배포하기 위한 `이미지`로 만들었을 때 이미지의 크기가 커집니다. 
 
-![Capture](../assets/img/post/docker/2020-12-31-docker-1.png)
+![Capture](/assets/img/post/docker/2020-12-31-docker-1.png)
 - 위의 그림을 보시면 알겠지만, 오른쪽의 `Docker Engine`을 사용한 container가 Volume이 더 작은 것을 알 수 있습니다. 
 - Docker container는 호스트의 커널을 공유해서 사용할 수 있고, Docker Engine 위에 Application 실행에 필요한 라이브러리 및 바이너리 파일만 존재합니다.
 - 이러한 특징 때문에 container를 이미지로 만들었을 때 용량이 가상 머신에 비해 대폭 줄어들게 됩니다. 
