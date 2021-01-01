@@ -21,7 +21,7 @@ comments: true
 - WSL2는 cmd 말고 'window terminal'을 사용하여 설치합니다. 
 
 1) 윈도우 화면 왼쪽 하단 '검색'에 'microsoft store'를 검색합니다. 
-![Capture](/assets/img/post/docker/2021-1-2-docker-0.png)
+![Capture](/assets/img/post/docker/2021-1-2-docker-0.JPG)
 
 2) 이후 'window terminal'을 설치합니다. (저는 검색 결과 가장 왼쪽에 있는 것을 설치했습니다.)
 ![Capture](/assets/img/post/docker/2021-1-2-docker-1.JPG)
