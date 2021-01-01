@@ -24,8 +24,8 @@ comments: true
 ![Capture](/assets/img/post/docker/2021-1-2-docker-0.png)
 
 2) 이후 'window terminal'을 설치합니다. (저는 검색 결과 가장 왼쪽에 있는 것을 설치했습니다.)
-![Capture](/assets/img/post/docker/2021-1-2-docker-1.jpg)
-![Capture](/assets/img/post/docker/2021-1-2-docker-2.jpg)
+![Capture](/assets/img/post/docker/2021-1-2-docker-1.JPG)
+![Capture](/assets/img/post/docker/2021-1-2-docker-2.JPG)
 
 3) 설치가 되면, 다음 두 개의 명령어를 차례대로 실행해줍니다.
 ```c
@@ -34,14 +34,14 @@ dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /nores
 ```
 
 4) 다시 'microsoft store'로 들어가 'Ubuntu'를 다운로드 합니다. (저는 검색 결과 가장 왼쪽에 있는 것을 설치했습니다.)
-![Capture](/assets/img/post/docker/2021-1-2-docker-3.jpg)
+![Capture](/assets/img/post/docker/2021-1-2-docker-3.JPG)
 - 설치가 완료되면 'ubuntu'를 실행시켜 사용자 등록을 진행합니다. 
 
 5) 'window terminal'에서 `wsl -l` 명령어를 실행시켜 'Ubuntu'가 있는지 확인합니다. 
-![Capture](/assets/img/post/docker/2021-1-2-docker-4.jpg)
+![Capture](/assets/img/post/docker/2021-1-2-docker-4.JPG)
 
 6) 또한 wsl 버전도 확인합니다. `wsl -l -v`로 확인할 수 있습니다. 
-![Capture](/assets/img/post/docker/2021-1-2-docker-5.jpg)
+![Capture](/assets/img/post/docker/2021-1-2-docker-5.JPG)
 
 - 만약 wsl 버전이 1이라면 `wsl --set-version Ubuntu 2` 명령어로 wsl 버전을 변경할 수 있습니다. 
 
