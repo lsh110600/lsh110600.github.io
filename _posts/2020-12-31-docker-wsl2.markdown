@@ -1,0 +1,53 @@
+---
+layout: post
+title: '[Docker] 윈도우에서 도커 설치를 위한 WSL2 설치'
+subtitle: '윈도우에서 도커 설치를 위한 WSL2 설치'
+categories: devops
+tags: doker
+comments: true
+---
+
+윈도우에서 도커 설치를 위한 WSL2 설치
+
+
+## WSL2란? 
+
+- 윈도우에서 가상 머신의 오버헤드 없이 리눅스를 사용할 수 있는 기능입니다.
+- https://docs.microsoft.com/ko-kr/windows/wsl/about
+- 2020년 5월 이후의 윈도우 업데이트가 필요. 
+
+
+## WSL2 설치
+- WSL2는 cmd 말고 'window terminal'을 사용하여 설치합니다. 
+
+1) 윈도우 화면 왼쪽 하단 '검색'에 'microsoft store'를 검색합니다. 
+![Capture](/assets/img/post/docker/2021-1-2-docker-0.png)
+
+2) 이후 'window terminal'을 설치합니다. (저는 검색 결과 가장 왼쪽에 있는 것을 설치했습니다.)
+![Capture](/assets/img/post/docker/2021-1-2-docker-1.jpg)
+![Capture](/assets/img/post/docker/2021-1-2-docker-2.jpg)
+
+3) 설치가 되면, 다음 두 개의 명령어를 차례대로 실행해줍니다.
+```c
+dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart 
+dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
+```
+
+4) 다시 'microsoft store'로 들어가 'Ubuntu'를 다운로드 합니다. (저는 검색 결과 가장 왼쪽에 있는 것을 설치했습니다.)
+![Capture](/assets/img/post/docker/2021-1-2-docker-3.jpg)
+- 설치가 완료되면 'ubuntu'를 실행시켜 사용자 등록을 진행합니다. 
+
+5) 'window terminal'에서 `wsl -l` 명령어를 실행시켜 'Ubuntu'가 있는지 확인합니다. 
+![Capture](/assets/img/post/docker/2021-1-2-docker-4.jpg)
+
+6) 또한 wsl 버전도 확인합니다. `wsl -l -v`로 확인할 수 있습니다. 
+![Capture](/assets/img/post/docker/2021-1-2-docker-5.jpg)
+
+- 만약 wsl 버전이 1이라면 `wsl --set-version Ubuntu 2` 명령어로 wsl 버전을 변경할 수 있습니다. 
+
+Extra) Docker Desktop 설치
+- Dashboard 형태로 도커 이미지를 쉽게 RUN 할 수 있습니다. 
+- https://hub.docker.com/editions/community/docker-ce-desktop-windows
+- 설치가 끝나면 설정으로가서 `Use the WSL2 based engine` 옵션을 체크합니다. 
+![Capture](/assets/img/post/docker/2021-1-2-docker-6.png)
+
