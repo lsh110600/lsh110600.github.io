@@ -1,0 +1,24 @@
+---
+layout: post
+title: 'ETRI 업무'
+subtitle: 'ETRI'
+categories: devops
+tags: etri
+comments: true
+---
+
+
+업무 
+
+
+# 1주차
+1. 멀티모달 논문 읽기
+
+### 궁금한거 정리
+1) 멀티모달과 멀티뷰의 차이
+- 멀티 모달은 다양한 감각 기관을 통해 관찰되는 특징으로, 본 연구에서는 멀티 뷰의 하위 개념으로 사용하였다 (Lahat 등, 2015).
+- 출처 = Multi-view learning review: understanding methods and their application
+
+2) 멀티 모달 검색??
+
+3) intermediate semantic space? unimodal? Joint? coordinated? coordinated space? cross-modal hashing ?
