@@ -7,9 +7,9 @@ tags: multimodal
 comments: true
 ---
 
-멀티모달 딥러닝에 대한 조사 및 공부. 
-Multimodal Machine Learning: A Survey and Taxonomy 논문 세미나 발표
-CMU(Carnegie Mellon University) Louis-Philippe Morency 교수님의 강의 듣기 https://cmu-multicomp-lab.github.io/mmml-course/fall2020/
+멀티모달 딥러닝에 대한 조사 및 공부. <br>
+Multimodal Machine Learning: A Survey and Taxonomy 논문 세미나 발표 <br>
+CMU(Carnegie Mellon University) Louis-Philippe Morency 교수님의 강의 듣기 https://cmu-multicomp-lab.github.io/mmml-course/fall2020/ <br>
 
 업무 
 1. 멀티모달 논문 읽기/정리 
