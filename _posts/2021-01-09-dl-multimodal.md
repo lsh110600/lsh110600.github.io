@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Multomodal deep learning - CMU 강의2'
+title: 'Multomodal deep learning - CMU 강의 1.2 Datasets'
 subtitle: '1.2 Datasets'
 categories: deeplearning
 tags: multimodal
