@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Multomodal deep learning - CMU 강의1'
+title: 'Multomodal deep learning - CMU 강의 1.1 Intro'
 subtitle: '1.1Intro'
 categories: deeplearning
 tags: multimodal
