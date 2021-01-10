@@ -117,3 +117,13 @@ https://medium.com/watcha/gnn-%EC%86%8C%EA%B0%9C-%EA%B8%B0%EC%B4%88%EB%B6%80%ED%
 3. Rearranging computation
 ![Capture](/assets/img/post/multimodal/2021-1-10-multimodal-19.JPG)
 ![Capture](/assets/img/post/multimodal/2021-1-10-multimodal-20.JPG)
+
+### Multimodal Encoder-Decoder
+- Visual modality often encoded using CNN
+- Language modality will be decoded using LSTM
+![Capture](/assets/img/post/multimodal/2021-1-10-multimodal-21.JPG)
+- A simple multilayer perceptron will be used to translate from visual (CNN) to language (LSTM)
+
+### Multimodal LSTM에 관한 내용은 skip
+- 아직 LSTM 잘 몰라서...ㅠ 추후에 꼭 업데이트 
+https://youtu.be/37z_tJD81y8
