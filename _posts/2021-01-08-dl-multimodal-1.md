@@ -132,7 +132,7 @@ prediction task.
 - (Ex. laungage could help vision but vision could also help language.)
 - Co-Learning에서 직면한 과제는 이렇게 한 Modality가 다른 Modality를 도와줄 때, "서로 pairing이 얼마나 strong하게 됐느냐?" 이다.(특히 언어 번역 분야)  
 ![Capture](/assets/img/post/multimodal/2021-1-8-multimodal-14.JPG)
-- intermediate representation을 사용하여 source로 부터 target을 생성하고, sentimentic space의 사용으로 보이지 않는 단어(이미지 혹은 해결하고자 하는 task의 target)을 예측할 수 있음.  
+- intermediate representation을 사용하여 source로 부터 target을 생성하고, sentimentic space의 사용으로 보이지 않는(훈련 데이터에 없는 인스턴스) 단어(이미지 혹은 해결하고자 하는 task의 target)을 예측할 수 있음.  
 - 이는 Zero Shot Learning이 가능하다는 것을 의미함.
 
 - parallel과 non-parallel은 추후 보충. 
