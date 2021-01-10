@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 'Multomodal deep learning - CMU 강의 4.1 Multimodal Representations'
-subtitle: '1.1Intro'
+subtitle: '4.1 Multimodal Representations'
 categories: deeplearning
 tags: multimodal
 comments: true
