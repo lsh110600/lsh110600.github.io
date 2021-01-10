@@ -128,7 +128,7 @@ prediction task.
 ![Capture](/assets/img/post/multimodal/2021-1-8-multimodal-13.JPG)
 - 정의 :  Transfer knowledge between modalities, including their representations and predictive models.
 - 단일 모달 task의 모델 훈련 시점에서, 다른 Modality가 현제 해결하고자 하는 문제의 Modality를 도와주는 것을 의미. 
-- 이러한 Co-Learning은 데이터의 양이 재한되어 있거나, 아직 annotated가 안됐을 때 유용하게 활용할 수 있다. 
+- 이러한 Co-Learning은 데이터의 양이 한되어 있거나, 아직 annotated가 안됐을 때 유용하게 활용할 수 있다. 
 - (Ex. laungage could help vision but vision could also help language.)
 - Co-Learning에서 직면한 과제는 이렇게 한 Modality가 다른 Modality를 도와줄 때, "서로 pairing이 얼마나 strong하게 됐느냐?" 이다.(특히 언어 번역 분야)  
 ![Capture](/assets/img/post/multimodal/2021-1-8-multimodal-14.JPG)
