@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 'Multomodal deep learning - CMU 강의 2.1 Basic Concepts'
-subtitle: '1.1Intro'
+subtitle: '2.1 Basic Concepts'
 categories: deeplearning
 tags: multimodal
 comments: true
