@@ -247,12 +247,32 @@ Reduce 과정
 
 ### WordCount 만들기
 
+#### Mapper 구현
 
+    - 입력 key = 라인 번호, 입력 value = 문장
+    - 출력 key = 글자, 출력 value = 글자 수  
 
+    ```java
+    public class WordCount {
+        public static class TokenizerMapper
+            extends Mapper<Object, Text, Text, IntWritable>{
 
+            private final static IntWritable one = new IntWritable(1);
+            private Text word = new Text();
 
+            public void map(Object key, Text value, Context context
+                            ) throws IOException, InterruptedException {
+                StringTokenizer itr = new StringTokenizer(value.toString());
+                while (itr.hasMoreTokens()) {
+                        word.set(itr.nextToken());
+                        context.write(word, one);
+                }
+        }
+    }
+    ```
 
-
+    - Mapper<Object, Text, Text, IntWritable> <=> (입력 키, 입력 값, 출력 키, 출력 값)
+    - 
 
 
 
