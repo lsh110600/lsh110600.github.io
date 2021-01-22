@@ -255,12 +255,12 @@ Reduce 과정
     ```java
     public class WordCount {
         public static class TokenizerMapper
-            extends Mapper<Object, Text, Text, IntWritable>{
+            extends Mapper<LongWritable, Text, Text, IntWritable>{
 
             private final static IntWritable one = new IntWritable(1);
             private Text word = new Text();
 
-            public void map(Object key, Text value, Context context
+            public void map(LongWritable key, Text value, Context context
                             ) throws IOException, InterruptedException {
                 StringTokenizer itr = new StringTokenizer(value.toString());
                 while (itr.hasMoreTokens()) {
@@ -271,12 +271,38 @@ Reduce 과정
     }
     ```
 
-    - Mapper<Object, Text, Text, IntWritable> <=> (입력 키, 입력 값, 출력 키, 출력 값)
-    - 
+    - 상속 Mapper<LongWritable, Text, Text, IntWritable> <=> (입력 키, 입력 값, 출력 키, 출력 값)
+    - Map class에서 final static 변수로 선언한 one은 값이 1인 Integer입니다. 
+    - map 함수 재정의 => map(LongWritable key, Text value, Context context)
+    - value를 String으로 변환하고(toString) 공백(space) 단위로 구분하기 위해 StringTokenizer 객체를 선언합니다. 
+    - String 값을 순회하면서 (key-word, value-one)인 레코드를 추가합니다. 
 
+#### Reducer 구현
 
+    - mapper의 출력을 Reducer의 입력으로 받습니다. 
 
+    ```java
+    public static class IntSumReducer
+       extends Reducer<Text,IntWritable,Text,IntWritable> {
+    private IntWritable result = new IntWritable();
 
+    public void reduce(Text key, Iterable<IntWritable> values,
+                       Context context
+                       ) throws IOException, InterruptedException {
+      int sum = 0;
+      for (IntWritable val : values) {
+        sum += val.get();
+      }
+      result.set(sum);
+      context.write(key, result);
+    }
+  }
+    ```
+
+    - 상속 Reducer<Text,IntWritable,Text,IntWritable> <=> (입력 키, 입력 값, 출력 키, 출력 값)
+    - reduce 함수 재정의 => reduce(Text key, Iterable<IntWritable> values, Context context)
+    - map이랑 비슷한데, 차이점은 Iterator로 감싼다는 것입니다. 
+    - 중복된 key의 개수를 구하기 위해 for문 사용해서 sum 변수에 value(one)를 계속 더합니다.
 
 **Reference**
 
@@ -284,3 +310,4 @@ Reduce 과정
 2. [Medialog-Hadoop](https://sites.google.com/site/medialoghadoop/04-hadub2waui-mannam/14-yan-aepeullikeisyeon-gaebal).
 3. [Apache Hadoop](https://hadoop.apache.org/docs/stable/hadoop-mapreduce-client/hadoop-mapreduce-client-core/MapReduceTutorial.html).
 4. [cloudera Hadoop](https://docs.cloudera.com/HDPDocuments/HDP2/HDP-2.1.3/bk_using-apache-hadoop/content/yarn_overview.html).
+5. [wordcount code](https://kamang-it.tistory.com/entry/Hadoop-03%EB%A7%B5%EB%A6%AC%EB%93%80%EC%8A%A4-%EC%98%88%EC%A0%9CWordCount).
