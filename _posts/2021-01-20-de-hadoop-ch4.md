@@ -304,7 +304,99 @@ Reduce 과정
     - map이랑 비슷한데, 차이점은 Iterator로 감싼다는 것입니다. 
     - 중복된 key의 개수를 구하기 위해 for문 사용해서 sum 변수에 value(one)를 계속 더합니다.
 
-**Reference**
+#### Driver 구현
+
+    - mapper & reducer class를 실행하는 것이 driver class.
+    - job 객체 생성 -> 맵리듀스 job의 실행 정보 설정 -> 맵리듀스 job 실행
+
+    ```java
+     public static void main(String[] args) throws Exception {
+        Configuration conf = new Configuration();
+        GenericOptionsParser optionParser = new GenericOptionsParser(conf, args);
+        String[] remainingArgs = optionParser.getRemainingArgs();
+        if ((remainingArgs.length != 2) && (remainingArgs.length != 4)) {
+            System.err.println("Usage: wordcount <in> <out> [-skip skipPatternFile]");
+            System.exit(2);
+        }
+        Job job = Job.getInstance(conf, "word count");
+        job.setJarByClass(WordCount2.class);
+        job.setMapperClass(TokenizerMapper.class)job.setReducerClass(IntSumReducer.class);
+        
+        job.setOutputKeyClass(Text.class);
+        job.setOutputValueClass(IntWritable.class);
+    
+        FileInputFormat.addInputPath(job, new Path(otherArgs.get(0)));
+        FileOutputFormat.setOutputPath(job, new Path(otherArgs.get(1)));
+        job.waitForCompletion(true);
+    }
+
+    ```
+
+#### WordCount 빌드
+
+    - 모든 클래스를 구현했으면, 컴파일을 해서 jar 파일을 만듭니다. 
+    - 이클립스 or 인텔리제이 or ubuntu에서 maven 사용 등 각자 편하신데로 jar 파일을 만들어줍니다.  
+
+##### maven 설치
+
+    - 저같은 경우는 리눅스 환경에서 maven 사용해서 jar 파일을 만들었습니다. 
+    - maven 설치 및 `Unable to locate package maven` 오류 해결법 - [출처] ubuntu 18.04에서 apt install maven이 안될때|작성자 Fiver
+
+    ```
+    sudo apt-get install software-properties-common
+    sudo apt-add-repository universe
+    sudo apt-get update
+    sudo apt-get install maven
+    ```
+
+##### pom.xml 설정
+
+    - maven 설치 후 pom.xml 파일을 만들어서 의존성 관리를 해주어야 합니다. 제 환경에서는 하둡 버전이 3.2.1 이기 때문에 각자의 version에 맞춰서 바꿔주시면 됩니다.
+
+    ```xml
+    <?xml version="1.0" encoding="UTF-8"?>
+    <project xmlns="http://maven.apache.org/POM/4.0.0"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+        <modelVersion>4.0.0</modelVersion>
+
+        <groupId>org.hadoop.mapreduce-example</groupId>
+        <artifactId>wordcount-demo</artifactId>
+        <version>1.0-SNAPSHOT</version>
+
+        <dependencies>
+            <dependency>
+                <groupId>org.apache.hadoop</groupId>
+                <artifactId>hadoop-client</artifactId>
+                <version>3.2.1</version> 
+            </dependency>
+        </dependencies>
+
+    </project>
+    ```
+
+##### jar 생성
+
+    - wordcount.java 파일과 pom.xml을 같은 경로에 두고, `mvn clean install`을 입력해줍니다. 
+
+![img](/assets/img/post/hadoop/2021-1-20-hadoop-4-6.png)
+
+    - 빌드가 완료되면 target이라는 디렉토리가 생기고 안으로 들어가면, OOOOO.jar 파일이 생성됩니다. 
+
+    - 이 jar 파일을 namenode에 옮겨줍니다. `docker cp wc_exam.jar namenode:/tmp/`
+
+##### wordcount 실행
+
+    - input으로 쓰일 txt 파일이 hdfs input 디렉토리에 이미 준비되어있다고 가정합니다. 
+
+    - `hadoop jar wc_exam.jar org.apache.hadoop.examples.WordCount input output/test_0`
+
+![img](/assets/img/post/hadoop/2021-1-20-hadoop-4-7.png)
+
+    - 결과를 hdfs에 들어가서 조회할 수 있습니다. 
+
+
+### Reference
 
 1. 시작하세요 하둡 프로그래밍
 2. [Medialog-Hadoop](https://sites.google.com/site/medialoghadoop/04-hadub2waui-mannam/14-yan-aepeullikeisyeon-gaebal).
