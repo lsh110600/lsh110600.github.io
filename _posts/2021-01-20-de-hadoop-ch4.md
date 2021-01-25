@@ -314,28 +314,28 @@ public void reduce(Text key, Iterable<IntWritable> values,
     - mapper & reducer class를 실행하는 것이 driver class.
     - job 객체 생성 -> 맵리듀스 job의 실행 정보 설정 -> 맵리듀스 job 실행
 
-```java
+    ``` java
     public static void main(String[] args) throws Exception {
-    Configuration conf = new Configuration();
-    GenericOptionsParser optionParser = new GenericOptionsParser(conf, args);
-    String[] remainingArgs = optionParser.getRemainingArgs();
-    if ((remainingArgs.length != 2) && (remainingArgs.length != 4)) {
-        System.err.println("Usage: wordcount <in> <out> [-skip skipPatternFile]");
-        System.exit(2);
+        Configuration conf = new Configuration();
+        GenericOptionsParser optionParser = new GenericOptionsParser(conf, args);
+        String[] remainingArgs = optionParser.getRemainingArgs();
+        if ((remainingArgs.length != 2) && (remainingArgs.length != 4)) {
+            System.err.println("Usage: wordcount <in> <out> [-skip skipPatternFile]");
+            System.exit(2);
+        }
+        Job job = Job.getInstance(conf, "word count");
+        job.setJarByClass(WordCount2.class);
+        job.setMapperClass(TokenizerMapper.class)job.setReducerClass(IntSumReducer.class);
+        
+        job.setOutputKeyClass(Text.class);
+        job.setOutputValueClass(IntWritable.class);
+
+        FileInputFormat.addInputPath(job, new Path(otherArgs.get(0)));
+        FileOutputFormat.setOutputPath(job, new Path(otherArgs.get(1)));
+        job.waitForCompletion(true);
     }
-    Job job = Job.getInstance(conf, "word count");
-    job.setJarByClass(WordCount2.class);
-    job.setMapperClass(TokenizerMapper.class)job.setReducerClass(IntSumReducer.class);
-    
-    job.setOutputKeyClass(Text.class);
-    job.setOutputValueClass(IntWritable.class);
 
-    FileInputFormat.addInputPath(job, new Path(otherArgs.get(0)));
-    FileOutputFormat.setOutputPath(job, new Path(otherArgs.get(1)));
-    job.waitForCompletion(true);
-}
-
-```
+    ```
 
 #### WordCount 빌드
 
@@ -356,7 +356,8 @@ public void reduce(Text key, Iterable<IntWritable> values,
 
 ##### pom.xml 설정
 
-    - maven 설치 후 pom.xml 파일을 만들어서 의존성 관리를 해주어야 합니다. 제 환경에서는 하둡 버전이 3.2.1 이기 때문에 각자의 version에 맞춰서 바꿔주시면 됩니다.
+    - maven 설치 후 pom.xml 파일을 만들어서 의존성 관리를 해주어야 합니다. 
+    - 제 환경에서는 하둡 버전이 3.2.1 이기 때문에 각자의 version에 맞춰서 바꿔주시면 됩니다.
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -399,7 +400,6 @@ public void reduce(Text key, Iterable<IntWritable> values,
 ![img](/assets/img/post/hadoop/2021-1-20-hadoop-4-7.png)
 
     - 결과를 hdfs에 들어가서 조회할 수 있습니다. 
-
 
 ### Reference
 
