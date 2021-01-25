@@ -15,9 +15,11 @@ comments: true
     - 맵리듀스 프로그래밍 모델은 맵(Map)과 리듀스(Reduce) 두 가지 단계로 구분되어 데이터를 처리합니다. 
 
     - 맵 : 입력 파일을 한 줄씩 읽어서 데이터를 변형
+
     - 리듀스 : 맵의 결과 데이터를 집계
 
-    맵리듀스 프로그래밍 모델의 처리 과정입니다. 
+    -  맵리듀스 프로그래밍 모델의 처리 과정입니다. 
+
 ![img](/assets/img/post/hadoop/2021-1-20-hadoop-4-0.png)
 
 1. 맵은 한 줄에 있는 단어 개수를 계산해 한 줄씩 출력합니다.
@@ -89,6 +91,7 @@ comments: true
     - HDFS가 아닌, 맵퍼의 Local file system에 저장되고 분할된 파일은 다른 리듀스 task에 저장됩니다. 
 
 Map 과정
+
 ![img](/assets/img/post/hadoop/2021-1-20-hadoop-4-3.jpg)
 
 #### 2. Reducer
@@ -123,47 +126,48 @@ Reduce 과정
 
     코드
 
-    ```java
-    public class Mapper<KEYIN, VALUEIN, KEYOUT, VALUEOUT> { // Mapper<입력키, 입력값, 출력키, 출력값>
-        // ↓ 내포클래스 = Inner Class
-            public class Context 
-                extends MapContext<KEYIN,VALUEIN,KEYOUT,VALUEOUT> {
-                public Context(Configuration conf, TaskAttemptID taskid,
-                            RecordReader<KEYIN,VALUEIN> reader,  
-                            RecordWriter<KEYOUT,VALUEOUT> writer,
-                            OutputCommitter committer,
-                            StatusReporter reporter,
-                            InputSplit split) throws IOException, InterruptedException {
+```java
+public class Mapper<KEYIN, VALUEIN, KEYOUT, VALUEOUT> { // Mapper<입력키, 입력값, 출력키, 출력값>
+    // ↓ 내포클래스 = Inner Class
+        public class Context 
+            extends MapContext<KEYIN,VALUEIN,KEYOUT,VALUEOUT> {
+            public Context(Configuration conf, TaskAttemptID taskid,
+                        RecordReader<KEYIN,VALUEIN> reader,  
+                        RecordWriter<KEYOUT,VALUEOUT> writer,
+                        OutputCommitter committer,
+                        StatusReporter reporter,
+                        InputSplit split) throws IOException, InterruptedException {
 
-                super(conf, taskid, reader, writer, committer, reporter, split);    
-            }
-        }
-
-        protected void setup(Context context) throws IOException, InterruptedException {
-        // NOTHING
-        }
-
-        protected void map(KEYIN key, VALUEIN value, Context context) throws IOException, InterruptedException {
-        context.write((KEYOUT) key, (VALUEOUT) value);
-        }
-
-        protected void cleanup(Context context) throws IOException, InterruptedException {
-        // NOTHING
-        }
-
-        public void run(Context context) throws IOException, InterruptedException {
-        setup(context);
-        try{
-            while(context.nextKeyValue()) {
-                map(context.getCurrentKey(), context.getCurrentValue(), context);
-            }
-        }finally{
-            cleanup(context);
-            }
+            super(conf, taskid, reader, writer, committer, reporter, split);    
         }
     }
 
-    ```
+    protected void setup(Context context) throws IOException, InterruptedException {
+    // NOTHING
+    }
+
+    protected void map(KEYIN key, VALUEIN value, Context context) throws IOException, InterruptedException {
+    context.write((KEYOUT) key, (VALUEOUT) value);
+    }
+
+    protected void cleanup(Context context) throws IOException, InterruptedException {
+    // NOTHING
+    }
+
+    public void run(Context context) throws IOException, InterruptedException {
+    setup(context);
+    try{
+        while(context.nextKeyValue()) {
+            map(context.getCurrentKey(), context.getCurrentValue(), context);
+        }
+    }finally{
+        cleanup(context);
+        }
+    }
+}
+
+```
+
     - 맵 함수는 추상 map( ) 메소드를 정의하는 Mapper 클래스로 구현됩니다.
     - Mapper 클래스는 제네릭(generic) 타입으로, 네 개의 정규 타입 매개변수(입력 키, 입력 값, 출력 키, 출력 값)을 가집니다. 
     - MapContext를 상속받은 Context객체를 선언합니다.
@@ -174,64 +178,65 @@ Reduce 과정
 
     코드
 
-    ```java
-    public class HashPartitioner<K, V> extends Partitioner<K, V> {
-        public int getPartition(K key, V value, int numReduceTasks) {
-        return (key.hashCode() & Integer.MAX_VALUE) % numReduceTasks;
-        }
+```java
+public class HashPartitioner<K, V> extends Partitioner<K, V> {
+    public int getPartition(K key, V value, int numReduceTasks) {
+    return (key.hashCode() & Integer.MAX_VALUE) % numReduceTasks;
     }
+}
 
-    ```
+```
     - 맵테스크의 출력키, 출력값, 전체 리듀스테스크 개수를 파라미터로 받아서 해쉬함수를 사용해 파티션을 계산합니다. => getPartition
   
 #### Reducer
 
     코드
 
-    ```java
-        public class Reducer<KEYIN, VALUEIN, KEYOUT, VALUEOUT> { // Reducer<입력키유형, 입력값유형, 출력키유형, 출력값유형>
-        // ↓ 내포클래스 = Inner Class
-        public class Context extends ReduceContext<KEYIN,VALUEIN,KEYOUT,VALUEOUT> {
-            public Context(Configuration conf, TaskAttemptID taskid,
-                           RawKeyValueIterator input,
-                           Counter inputKeyCounter,
-                           Counter inputValueCounter,
-                           RecordWriter<KEYOUT,VALUEOUT> output,
-                           OutputCommitter committer,
-                           StatusReporter reporter,
-                           RawComparator<KEYIN> comparator,
-                           Class<KEYIN> keyClass,
-                           Class<VALUEIN> valueClass
-                           ) throws IOException, InterruptedException {
-           super(conf, taskid, input, inputKeyCounter, inputValueCounter, 
-                 output, committer, reporter, comparator, keyClass, valueClass);
-           }
-        }
-
-        protected void setup(Context context) throws IOException, InterruptedException {
-        // NOTHING
-        }
-        protected void reduce(KEYIN key, Iterable<VALUEIN> value, Context context)
-                            throws IOException, InterruptedException {
-                                 context.write((KEYOUT) key, (VALUEOUT) value);
-        }
-        protected void cleanup(Context context) throws IOException, InterruptedException {
-        // NOTHING
-        }
-
-        public void run(Context context) throws IOException, InterruptedException {
-            setup(context);
-            try{
-                while(context.nextKeyValue()) {
-                 reduce(context.getCurrentKey(), context.getValues(), context);
-                }
-            }finally{
-                cleanup(context);
-            }
+```java
+    public class Reducer<KEYIN, VALUEIN, KEYOUT, VALUEOUT> { // Reducer<입력키유형, 입력값유형, 출력키유형, 출력값유형>
+    // ↓ 내포클래스 = Inner Class
+    public class Context extends ReduceContext<KEYIN,VALUEIN,KEYOUT,VALUEOUT> {
+        public Context(Configuration conf, TaskAttemptID taskid,
+                        RawKeyValueIterator input,
+                        Counter inputKeyCounter,
+                        Counter inputValueCounter,
+                        RecordWriter<KEYOUT,VALUEOUT> output,
+                        OutputCommitter committer,
+                        StatusReporter reporter,
+                        RawComparator<KEYIN> comparator,
+                        Class<KEYIN> keyClass,
+                        Class<VALUEIN> valueClass
+                        ) throws IOException, InterruptedException {
+        super(conf, taskid, input, inputKeyCounter, inputValueCounter, 
+                output, committer, reporter, comparator, keyClass, valueClass);
         }
     }
 
-    ```
+    protected void setup(Context context) throws IOException, InterruptedException {
+    // NOTHING
+    }
+    protected void reduce(KEYIN key, Iterable<VALUEIN> value, Context context)
+                        throws IOException, InterruptedException {
+                                context.write((KEYOUT) key, (VALUEOUT) value);
+    }
+    protected void cleanup(Context context) throws IOException, InterruptedException {
+    // NOTHING
+    }
+
+    public void run(Context context) throws IOException, InterruptedException {
+        setup(context);
+        try{
+            while(context.nextKeyValue()) {
+                reduce(context.getCurrentKey(), context.getValues(), context);
+            }
+        }finally{
+            cleanup(context);
+        }
+    }
+}
+
+```
+
     - Mapper와 상속하는 클래스만 다르고 나머지는 같습니다.  
 
 #### InputFormat & OutputFormat
@@ -252,24 +257,24 @@ Reduce 과정
     - 입력 key = 라인 번호, 입력 value = 문장
     - 출력 key = 글자, 출력 value = 글자 수  
 
-    ```java
-    public class WordCount {
-        public static class TokenizerMapper
-            extends Mapper<LongWritable, Text, Text, IntWritable>{
+```java
+public class WordCount {
+    public static class TokenizerMapper
+        extends Mapper<LongWritable, Text, Text, IntWritable>{
 
-            private final static IntWritable one = new IntWritable(1);
-            private Text word = new Text();
+        private final static IntWritable one = new IntWritable(1);
+        private Text word = new Text();
 
-            public void map(LongWritable key, Text value, Context context
-                            ) throws IOException, InterruptedException {
-                StringTokenizer itr = new StringTokenizer(value.toString());
-                while (itr.hasMoreTokens()) {
-                        word.set(itr.nextToken());
-                        context.write(word, one);
-                }
-        }
+        public void map(LongWritable key, Text value, Context context
+                        ) throws IOException, InterruptedException {
+            StringTokenizer itr = new StringTokenizer(value.toString());
+            while (itr.hasMoreTokens()) {
+                    word.set(itr.nextToken());
+                    context.write(word, one);
+            }
     }
-    ```
+}
+```
 
     - 상속 Mapper<LongWritable, Text, Text, IntWritable> <=> (입력 키, 입력 값, 출력 키, 출력 값)
     - Map class에서 final static 변수로 선언한 one은 값이 1인 Integer입니다. 
@@ -281,23 +286,23 @@ Reduce 과정
 
     - mapper의 출력을 Reducer의 입력으로 받습니다. 
 
-    ```java
-    public static class IntSumReducer
-       extends Reducer<Text,IntWritable,Text,IntWritable> {
-    private IntWritable result = new IntWritable();
+```java
+public static class IntSumReducer
+    extends Reducer<Text,IntWritable,Text,IntWritable> {
+private IntWritable result = new IntWritable();
 
-    public void reduce(Text key, Iterable<IntWritable> values,
-                       Context context
-                       ) throws IOException, InterruptedException {
-      int sum = 0;
-      for (IntWritable val : values) {
-        sum += val.get();
-      }
-      result.set(sum);
-      context.write(key, result);
+public void reduce(Text key, Iterable<IntWritable> values,
+                    Context context
+                    ) throws IOException, InterruptedException {
+    int sum = 0;
+    for (IntWritable val : values) {
+    sum += val.get();
     }
-  }
-    ```
+    result.set(sum);
+    context.write(key, result);
+}
+}
+```
 
     - 상속 Reducer<Text,IntWritable,Text,IntWritable> <=> (입력 키, 입력 값, 출력 키, 출력 값)
     - reduce 함수 재정의 => reduce(Text key, Iterable<IntWritable> values, Context context)
@@ -309,28 +314,28 @@ Reduce 과정
     - mapper & reducer class를 실행하는 것이 driver class.
     - job 객체 생성 -> 맵리듀스 job의 실행 정보 설정 -> 맵리듀스 job 실행
 
-    ```java
-     public static void main(String[] args) throws Exception {
-        Configuration conf = new Configuration();
-        GenericOptionsParser optionParser = new GenericOptionsParser(conf, args);
-        String[] remainingArgs = optionParser.getRemainingArgs();
-        if ((remainingArgs.length != 2) && (remainingArgs.length != 4)) {
-            System.err.println("Usage: wordcount <in> <out> [-skip skipPatternFile]");
-            System.exit(2);
-        }
-        Job job = Job.getInstance(conf, "word count");
-        job.setJarByClass(WordCount2.class);
-        job.setMapperClass(TokenizerMapper.class)job.setReducerClass(IntSumReducer.class);
-        
-        job.setOutputKeyClass(Text.class);
-        job.setOutputValueClass(IntWritable.class);
-    
-        FileInputFormat.addInputPath(job, new Path(otherArgs.get(0)));
-        FileOutputFormat.setOutputPath(job, new Path(otherArgs.get(1)));
-        job.waitForCompletion(true);
+```java
+    public static void main(String[] args) throws Exception {
+    Configuration conf = new Configuration();
+    GenericOptionsParser optionParser = new GenericOptionsParser(conf, args);
+    String[] remainingArgs = optionParser.getRemainingArgs();
+    if ((remainingArgs.length != 2) && (remainingArgs.length != 4)) {
+        System.err.println("Usage: wordcount <in> <out> [-skip skipPatternFile]");
+        System.exit(2);
     }
+    Job job = Job.getInstance(conf, "word count");
+    job.setJarByClass(WordCount2.class);
+    job.setMapperClass(TokenizerMapper.class)job.setReducerClass(IntSumReducer.class);
+    
+    job.setOutputKeyClass(Text.class);
+    job.setOutputValueClass(IntWritable.class);
 
-    ```
+    FileInputFormat.addInputPath(job, new Path(otherArgs.get(0)));
+    FileOutputFormat.setOutputPath(job, new Path(otherArgs.get(1)));
+    job.waitForCompletion(true);
+}
+
+```
 
 #### WordCount 빌드
 
@@ -353,27 +358,27 @@ Reduce 과정
 
     - maven 설치 후 pom.xml 파일을 만들어서 의존성 관리를 해주어야 합니다. 제 환경에서는 하둡 버전이 3.2.1 이기 때문에 각자의 version에 맞춰서 바꿔주시면 됩니다.
 
-    ```xml
-    <?xml version="1.0" encoding="UTF-8"?>
-    <project xmlns="http://maven.apache.org/POM/4.0.0"
-            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-            xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-        <modelVersion>4.0.0</modelVersion>
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-        <groupId>org.hadoop.mapreduce-example</groupId>
-        <artifactId>wordcount-demo</artifactId>
-        <version>1.0-SNAPSHOT</version>
+    <groupId>org.hadoop.mapreduce-example</groupId>
+    <artifactId>wordcount-demo</artifactId>
+    <version>1.0-SNAPSHOT</version>
 
-        <dependencies>
-            <dependency>
-                <groupId>org.apache.hadoop</groupId>
-                <artifactId>hadoop-client</artifactId>
-                <version>3.2.1</version> 
-            </dependency>
-        </dependencies>
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-client</artifactId>
+            <version>3.2.1</version> 
+        </dependency>
+    </dependencies>
 
-    </project>
-    ```
+</project>
+```
 
 ##### jar 생성
 
