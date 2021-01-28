@@ -12,9 +12,13 @@ comments: true
 
 ## 정렬
 
-맵리듀스는 기본적으로 입력 데이터의 키를 기준으로 정렬되기 때문에 하나의 리듀스 테스크만 실행되게 한다면 쉽게 정렬할 수 있습니다.
+맵리듀스는 기본적으로 입력 데이터의 키를 기준으로 정렬되기 때문에,
 
-하지만 분산 환경의 경우 여러 데이터 노드가 실행되기 때문에 하나의 리듀스 테스크만 실행하는 것은 바람직하지 않습니다.(네트워크 부하가 걸리는 등, 분산 환경의 장점을 살리지 못함)
+하나의 리듀스 테스크만 실행되게 한다면 쉽게 정렬할 수 있습니다.
+
+하지만 분산 환경의 경우 여러 데이터 노드가 실행되기 때문에 하나의 리듀스 테스크만 실행하는 것은 바람직하지 않습니다.
+
+(네트워크 부하가 걸리는 등, 분산 환경의 장점을 살리지 못함)
 
 따라서 다양한 정렬 방법을 사용할 줄 알아야합니다.
 
@@ -31,79 +35,84 @@ comments: true
 2008, 3
 ```
 
-월의 순서대로 정렬하기 위해 보조 정렬을 사용합니다. 보조 정렬은 다음과 같은 단계로 실행됩니다.
+월의 순서대로 정렬하기 위해 보조 정렬을 사용합니다. 
 
-1. 기존 키의 값들을 조합한 복합키(Composite Key)를 정의합니다.
+보조 정렬은 다음과 같은 단계로 실행됩니다.
 
-2. 복합키 레코드를 정렬하기 위한 비교기(Comparator) 정의합니다.
+1. `기존 키의 값들을 조합한 복합키(Composite Key)`를 정의합니다.
 
-3. 그룹핑 키를 파티셔닝하는 파티셔너(Partitioner)를 정의합니다.
+2. `복합키 레코드를 정렬하기 위한 비교기(Comparator)`를 정의합니다.
 
-4. 그룹핑 키를 정렬하기 위한 비교기(Comparator) 정의합니다.
+3. `그룹핑 키를 파티셔닝하는 파티셔너(Partitioner)`를 정의합니다.
+
+4. `그룹핑 키를 정렬하기 위한 비교기(Comparator)`를 정의합니다.
 
 #### 복합키(Composite Key) 구현
 
 복합키는 기존의 키 값을 조합한 키 집합 클래스입니다.
+
 이전의 5장에는 출력키를 하나의 문자열로 사용했지만, 복합키를 적용해 연 / 월이 각각 변수로 정의됩니다.
 
 - 복합키를 사용하기 위해 WritableComparable 인터페이스를 구현하고, 파라미터는 자기 자신인 DateKey로 설정합니다.
 
-    ```java
-    Datekey.java
+  ```java
+  Datekey.java
+  ...
+  
+  public class DateKey implements WritableComparable<DateKey> {
 
-    public class DateKey implements WritableComparable<DateKey> {
-
-    ...
-    ```
+  ...
+  ```
 
 WritableComparable 인터페이스의 메소드로 readFields, write, compareTo 메소드를 구현합니다.
 
 - readFields 메소드는 입력 스트림에서 연 / 월을 읽어들입니다.
 
-    ```java
-    Datekey.java
-    ...
+  ```java
+  Datekey.java
+  ...
 
-    @Override
-    public void readFields(DataInput in) throws IOException {
-        year = WritableUtils.readString(in);
-        month = in.readInt();
-    }
+  @Override
+  public void readFields(DataInput in) throws IOException {
+      year = WritableUtils.readString(in);
+      month = in.readInt();
+  }
 
-    ...
-    ```
+  ...
+  ```
 
 - write 메소드는 출력 스트림에 연 / 월을 출력합니다.
 
-    ```java
-    Datekey.java
-    ...
+  ```java
+  Datekey.java
+  ...
 
-    @Override
-    public void write(DataOutput out) throws IOException {
-        WritableUtils.writeString(out, year);
-        out.writeInt(month);
-    }
+  @Override
+  public void write(DataOutput out) throws IOException {
+      WritableUtils.writeString(out, year);
+      out.writeInt(month);
+  }
 
-    ...
-    ```
+  ...
+  ```
 
-- compareTo 메소드는 복합키끼리 순서를 비교할 때 사용하기 위한 메소드로, 미리 만들어 둡니다. 
+- compareTo 메소드는 복합키끼리 순서를 비교할 때 사용하기 위한 메소드로, 미리 만들어 둡니다.
 
-    ```java
-    Datekey.java
-    ...
+  ```java
+  Datekey.java
+  ...
 
-    @Override
-    public int compareTo(DateKey key) {
-        int result = year.compareTo(key.year);
-        if (0 == result) {
-        result = month.compareTo(key.month);
-        }
-        return result;
-    }
-    ...
-    ```
+  @Override
+  public int compareTo(DateKey key) {
+      int result = year.compareTo(key.year);
+      if (0 == result) {
+      result = month.compareTo(key.month);
+      }
+      return result;
+  }
+
+  ...
+  ```
 
 - 전체 코드
 
@@ -185,12 +194,12 @@ public class DateKey implements WritableComparable<DateKey> {
 
 - 비교 기준 1순위는 '연도', 2순위는 '월'로 비교하도록 합니다.
 
-    ```java
-    DatekeyComparator.java
-    ...
+  ```java
+  DatekeyComparator.java
+  ...
 
-    @Override
-    public int compare(WritableComparable w1, WritableComparable w2) {
+  @Override
+  public int compare(WritableComparable w1, WritableComparable w2) {
     DateKey k1 = (DateKey) w1;
     DateKey k2 = (DateKey) w2;
 
@@ -199,8 +208,8 @@ public class DateKey implements WritableComparable<DateKey> {
       return cmp;
     }
 
-    ...
-    ```
+  ...
+  ```
 
 - 전체 코드
 
@@ -233,6 +242,8 @@ public class DateKeyComparator extends WritableComparator {
 }
 ```
 
+</details>
+
 #### 그룹 키 파티셔너(Partitioner)구현
 
 파티셔너(Partitioner)는 맵 태스크의 출력 데이터를 리듀스 테스크의 입력 데이터로 보낼지 결정합니다.
@@ -241,19 +252,20 @@ public class DateKeyComparator extends WritableComparator {
 
 - 여기서는 연도를 그룹키로 사용하므로, getPartition 메서드는 연도에 대한 해시 코드를 조회해 파티션 번호를 생성합니다.
 
-    ```java
-    GroupKeyPartitioner.java
-    ...
+  ```java
+  GroupKeyPartitioner.java
+  ...
 
-    @Override
-    public int getPartition(DateKey key, IntWritable val, int numPartitions) {
-        int hash = key.getYear().hashCode();
-        int partition = hash % numPartitions;
-        return partition;
-    }
+  @Override
+  public int getPartition(DateKey key, IntWritable val, int numPartitions) {
+      int hash = key.getYear().hashCode();
+      int partition = hash % numPartitions;
+      return partition;
+  }
 
-    ...
-    ```
+  ...
+  
+  ```
 
 - 전체 코드
 
@@ -275,6 +287,8 @@ public class GroupKeyPartitioner extends Partitioner<DateKey, IntWritable> {
   }
 }
 ```
+
+</details>
 
 #### 그룹 키 비교기(Comparator) 구현
 
@@ -323,6 +337,8 @@ public class GroupKeyComparator extends WritableComparator {
   }
 }
 ```
+
+</details>
 
 #### 매퍼 구현
 
@@ -415,6 +431,8 @@ public class DelayCountMapperWithDateKey extends Mapper<LongWritable, Text, Date
   }
 }
 ```
+
+</details>
 
 #### 리듀서 구현
 
@@ -550,6 +568,8 @@ public class DelayCountReducerWithDateKey extends
 }
 ```
 
+</details>
+
 #### 드라이버 구현
 
 앞서 구현한 클래스들을 구동하는 드라이버 클래스를 구현합니다.
@@ -650,6 +670,8 @@ public class DelayCountWithDateKey extends Configured implements Tool {
   }
 }
 ```
+
+</details>
 
 ### Reference
 
