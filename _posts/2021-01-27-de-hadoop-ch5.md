@@ -1,6 +1,6 @@
 ---
 layout: post
-title: '[Hadoop] Hadoop CH 5 맵리듀스 기초 다지기'
+title: '[Hadoop] 시작하세요 하둡 프로그래밍 CH 5 맵리듀스 기초 다지기'
 subtitle: 'Hadoop CH 5 맵리듀스 기초 다지기'
 categories: de
 tags: hadoop

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: '[Hadoop] Hadoop CH 6 정렬 part1:보조 정렬'
+title: '[Hadoop] 시작하세요 하둡 프로그래밍 CH 6 정렬 part1:보조 정렬'
 subtitle: 'Hadoop CH 6 정렬 part1:보조 정렬'
 categories: de
 tags: hadoop
