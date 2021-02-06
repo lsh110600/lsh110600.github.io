@@ -16,7 +16,7 @@ comments: true
 
  `git clone https://github.com/blrunner/yarn-beginners-examples.git` 으로 코드를 다운받습니다.
 
-[img1](/assets/img/post/hadoop/2021-2-06-hadoop-14-1.png)
+[img1](/assets/img/post/hadoop/2021-2-04-hadoop-14-1.png)
 
 2. mvn으로 예제파일을 빌드합니다.
 
