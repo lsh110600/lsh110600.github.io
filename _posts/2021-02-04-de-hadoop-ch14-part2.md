@@ -344,23 +344,22 @@ main 메서드에서 MyClient 객체를 선언하고 실행합니다.
       }
     }
 
-```
+  ```
 
 ### 14.5 애플리케이션 실행
 
 1. 코드 다운로드
 
-`git clone https://github.com/blrunner/yarn-beginners-examples.git` 으로 코드를 다운받습니다.
+ `git clone https://github.com/blrunner/yarn-beginners-examples.git` 으로 코드를 다운받습니다.
 
 [img](/assets/img/post/hadoop/2021-2-06-hadoop-14-1.png)
-
 2. mvn으로 예제파일을 빌드합니다.
 
 저같은 경우는 하둡 버전이 3.2.1 이므로 pom.xml 파일을 수정해줍니다.
 
-[img](/assets/img/post/hadoop/2021-2-06-hadoop-14-2.png)
+  [img](/assets/img/post/hadoop/2021-2-06-hadoop-14-2.png)
 
-[img](/assets/img/post/hadoop/2021-2-06-hadoop-14-3.png)
+  [img](/assets/img/post/hadoop/2021-2-06-hadoop-14-3.png)
 
 이처럼 에러가 발생했는데, pom.xml에서 다음 코드를 추가해주세요.
 
@@ -371,27 +370,24 @@ main 메서드에서 MyClient 객체를 선언하고 실행합니다.
  </properties>
 ```
 
-[img](/assets/img/post/hadoop/2021-2-06-hadoop-14-4.png)
+  [img](/assets/img/post/hadoop/2021-2-06-hadoop-14-4.png)
 
 빌드가 완료되면 target 디랙토리가 생성됩니다.
 
-[img](/assets/img/post/hadoop/2021-2-06-hadoop-14-5.png)
+  [img](/assets/img/post/hadoop/2021-2-06-hadoop-14-5.png)
 
 `yarn-examples-1.0-SNAPSHOT.jar` 파일이 생성됨을 확인합니다.
-
 3. 생성된 JAR 파일을 하둡으로 옮겨줍니다.
 
 `docker cp yarn-examples-1.0-SNAPSHOT.jar namenode:/tmp/`
-
 4. 파일 확인
 
 `docker exec -it namenode /bin/bash`
 로 네임노드로 이동합니다.
 
-[img](/assets/img/post/hadoop/2021-2-06-hadoop-14-6.png)
+  [img](/assets/img/post/hadoop/2021-2-06-hadoop-14-6.png)
 
 네임노드 /tmp/ 디렉토리에 방금 만든 JAR 파일이 있는 것을 확인합니다.
-
 5. 하둡 실행
 
 `hadoop jar yarn-examples-1.0-SNAPSHOT.jar com.wikibooks.hadoop.yarn.examples.MyClient`
@@ -400,11 +396,11 @@ main 메서드에서 MyClient 객체를 선언하고 실행합니다.
 
 파라미터를 넣어주지 않았기 때문입니다.
 
-[img](/assets/img/post/hadoop/2021-2-06-hadoop-14-7.png)
+  [img](/assets/img/post/hadoop/2021-2-06-hadoop-14-7.png)
 
 `hadoop jar yarn-examples-1.0-SNAPSHOT.jar com.wikibooks.hadoop.yarn.examples.MyClient -jar yarn-examples-1.0-SNAPSHOT.jar -num_containers=1`
 
-[img](/assets/img/post/hadoop/2021-2-06-hadoop-14-7.png)
+  [img](/assets/img/post/hadoop/2021-2-06-hadoop-14-7.png)
 
 로그도 안쌓이고 Web에 접근할수가 없어서 다시 확인해야함.
 
