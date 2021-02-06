@@ -115,7 +115,7 @@ comments: true
   ...
   ```
 
-- 컨테이너 개수, 컨테이너 사용할 CPU, Memory 정보 등 파라미터 입력
+컨테이너 개수, 컨테이너 사용할 CPU, Memory 정보 등 파라미터를 입력합니다.
 
 #### 14.2.2 애플리케이션 실행 요청
 
@@ -177,7 +177,7 @@ comments: true
   ...
   ```
 
-GetNewApplicationResponse에는 ID 뿐만 아니라 가용가능한 최대 자원 정보도 포함되어있습니다.
+`GetNewApplicationResponse`에는 ID 뿐만 아니라 가용가능한 최대 자원 정보도 포함되어있습니다.
 
 사용자가 요청한 리소스가 현재 가용가능한 리소스보다 크면 사용자가 설정한 값 대신에 가용가능한 리소스 값을 사용합니다.
 
@@ -213,6 +213,7 @@ GetNewApplicationResponse에는 ID 뿐만 아니라 가용가능한 최대 자�
 `ApplicationId appId = appContext.getApplicationId();`를 통해 애플리케이션 ID를 조회합니다.
 
 리소스매니저에게 애플리케이션 실행을 요청할 때는 ApplicationSubmissionContext를 전달해야합니다.
+
 => `appContext`에 전달되는 값은 ApplicationSubmissionContext의 설정 값입니다.
 
 1. `appContext.setApplicationName(appName);`
@@ -226,7 +227,6 @@ GetNewApplicationResponse에는 ID 뿐만 아니라 가용가능한 최대 자�
 
 4. `appContext.setQueue(amQueue);`
 => AM 큐 설정
-
 
   ```java
   MyClient.java
@@ -323,14 +323,14 @@ GetNewApplicationResponse에는 ID 뿐만 아니라 가용가능한 최대 자�
   } 
 
   ```
+  
+</details>
 
 애플리케이션마스터를 실행하는 컨테이너에게 필요한 ContainerLaunchContext를 생성합니다.
 
 또한 애플리케이션마스터가 사용할 LocalResource 정보를 보관하는 HashMap 객체도 생성합니다.
 
 ##### addToLocalResources 메서드
-
-</details>
 
 `addToLocalResources` 메서드를 사용해서 HDFS에 파일을 업로드합니다.
 
