@@ -16,15 +16,14 @@ comments: true
 
  `git clone https://github.com/blrunner/yarn-beginners-examples.git` 으로 코드를 다운받습니다.
 
-[img1](/assets/img/post/hadoop/2021-2-04-hadoop-14-1.png)
-
+[img1](./assets/img/post/hadoop/2021-2-04-hadoop-14-1.png)
 2. mvn으로 예제파일을 빌드합니다.
 
 저같은 경우는 하둡 버전이 3.2.1 이므로 pom.xml 파일을 수정해줍니다.
 
-  [img2](/assets/img/post/hadoop/2021-2-06-hadoop-14-2.png)
+  [img2](./assets/img/post/hadoop/2021-2-06-hadoop-14-2.png)
 
-  [img3](/assets/img/post/hadoop/2021-2-06-hadoop-14-3.png)
+  [img3](./assets/img/post/hadoop/2021-2-06-hadoop-14-3.png)
 
 이처럼 에러가 발생했는데, pom.xml에서 다음 코드를 추가해주세요.
 
