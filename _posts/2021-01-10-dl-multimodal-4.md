@@ -8,7 +8,7 @@ comments: true
 ---
 
 
-강의 4.1 Multimodal Representations에 대한 내용 정리. 
+강의 4.1 Multimodal Representations에 대한 내용 정리.
 https://piazza.com/cmu/fall2019/11777/resources
 
 ## Graph 
